@@ -1,5 +1,10 @@
 plugins {
     id 'com.android.application'
+    
+    // --- THIS IS THE FIX ---
+    // Apply the Kotlin plugin to this app module
+    id 'org.jetbrains.kotlin.android'
+    // --- END OF FIX ---
 }
 
 android {
@@ -20,18 +25,20 @@ android {
         }
     }
     compileOptions {
-        // --- THIS IS THE FIX ---
-        // Match the Java 17 version from our GitHub Actions workflow
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-        // --- END OF FIX ---
+    }
+    
+    // Add this block for Kotlin options
+    kotlinOptions {
+        jvmTarget = '17'
     }
 }
 
 dependencies {
     implementation 'androidx.core:core-ktx:1.13.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.12.0' // For modern buttons/text fields
+    implementation 'com.google.android.material:material:1.12.0' 
     
     // The Chessboard UI and Logic Library
     implementation 'com.github.bhlangonijr:chesslib:1.3.3'
