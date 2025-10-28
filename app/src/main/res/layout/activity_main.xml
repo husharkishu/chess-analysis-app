@@ -46,12 +46,13 @@
         android:max="100"
         android:progress="50" />
 
-    <com.github.bhlangonijr.chesslib.pgn.PgnHolder
-        android:id="@+id/chessboard"
+    <FrameLayout
+        android:id="@+id/chessboard_placeholder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:background="#E0E0E0" />
         
     <LinearLayout
         android:layout_width="match_parent"
