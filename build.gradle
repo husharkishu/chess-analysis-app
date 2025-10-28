@@ -2,8 +2,6 @@
 plugins {
     id 'com.android.application' version '8.2.0' apply false
     
-    // --- THIS IS THE FIX ---
-    // Add the Kotlin plugin so the project knows what it is
+    // This is compatible with AGP 8.2.0
     id 'org.jetbrains.kotlin.android' version '1.9.20' apply false
-    // --- END OF FIX ---
 }
