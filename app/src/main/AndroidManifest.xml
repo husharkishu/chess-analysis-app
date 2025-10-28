@@ -8,7 +8,8 @@
         android:label="Chess Analysis"
         android:roundIcon="@android:mipmap/sym_def_app_icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
+        
+        android:theme="@style/Theme.ChessApp">
         <activity
             android:name=".MainActivity"
             android:exported="true">
