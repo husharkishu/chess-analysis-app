@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                 
                 pgn.getGames().firstOrNull()?.let { game ->
                     // --- FIX 4 & 5 ---
-                    // 'game' *is* the board, and 'loadMoveText()' is needed
+                    // 'game' *is* the board, and 'loadMoveText()' is needed first
                     game.loadMoveText()
                     board = game
                     // The board is now at the start of the game, no 'gotoMove' needed
