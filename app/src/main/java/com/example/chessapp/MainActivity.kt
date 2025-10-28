@@ -7,7 +7,6 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import com.github.bhlangonijr.chesslib.Board
 import com.github.bhlangonijr.chesslib.pgn.PgnHolder
-import com.google.android.material.textfield.TextInputEditText
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var chessBoardView: ChessBoardView
     private lateinit var pgnInput: TextInputEditText
     private lateinit var loadPgnButton: Button
-    private lateinit var loadFileButton: Button // We will add logic for this later
+    private lateinit var loadFileButton: Button
     private lateinit var prevMoveButton: Button
     private lateinit var nextMoveButton: Button
 
@@ -44,18 +43,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         nextMoveButton.setOnClickListener {
-            if (board.moveHistory.size > board.halfMoveCounter) {
-                // Use the built-in doMove method from chesslib
-                board.doMove(board.moveHistory[board.halfMoveCounter])
+            // --- FIX 1 & 2 ---
+            // Use getHalfMoves() and getHalfMoveCounter()
+            val moveHistory = board.getHalfMoves()
+            if (moveHistory.size > board.getHalfMoveCounter()) {
+                board.doMove(moveHistory[board.getHalfMoveCounter()])
                 chessBoardView.setBoard(board)
             }
+            // --- END OF FIX ---
         }
 
         prevMoveButton.setOnClickListener {
-            if (board.halfMoveCounter > 0) {
+            // --- FIX 3 ---
+            // Use getHalfMoveCounter()
+            if (board.getHalfMoveCounter() > 0) {
                 board.undoMove()
                 chessBoardView.setBoard(board)
             }
+            // --- END OF FIX ---
         }
         
         // Load the starting position
@@ -76,12 +81,13 @@ class MainActivity : AppCompatActivity() {
                 // Try loading as PGN
                 val pgn = PgnHolder("temp.pgn")
                 pgn.loadPgn(text)
-                // Go to the start of the game
+                
                 pgn.getGames().firstOrNull()?.let { game ->
-                    // --- THIS IS THE FIX ---
-                    // The 'game' object *is* the board, not 'game.board'
+                    // --- FIX 4 & 5 ---
+                    // 'game' *is* the board, and 'loadMoveText()' is needed
+                    game.loadMoveText()
                     board = game
-                    game.gotoMove(0) // Go to the very first move
+                    // The board is now at the start of the game, no 'gotoMove' needed
                     // --- END OF FIX ---
                 } ?: run {
                     board.loadFen(Board.DEFAULT_STARTING_FEN) // Fallback
