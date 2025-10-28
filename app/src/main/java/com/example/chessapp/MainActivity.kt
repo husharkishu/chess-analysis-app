@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         nextMoveButton.setOnClickListener {
             if (board.moveHistory.size > board.halfMoveCounter) {
+                // Use the built-in doMove method from chesslib
                 board.doMove(board.moveHistory[board.halfMoveCounter])
                 chessBoardView.setBoard(board)
             }
@@ -76,15 +77,18 @@ class MainActivity : AppCompatActivity() {
                 val pgn = PgnHolder("temp.pgn")
                 pgn.loadPgn(text)
                 // Go to the start of the game
-                pgn.getGames().firstOrNull()?.let {
-                    board = it.board
-                    it.gotoMove(0) // Go to the very first move
+                pgn.getGames().firstOrNull()?.let { game ->
+                    // --- THIS IS THE FIX ---
+                    // The 'game' object *is* the board, not 'game.board'
+                    board = game
+                    game.gotoMove(0) // Go to the very first move
+                    // --- END OF FIX ---
                 } ?: run {
                     board.loadFen(Board.DEFAULT_STARTING_FEN) // Fallback
                 }
             }
         } catch (e: Exception) {
-            Toast.makeText(this, "Error parsing PGN/FEN", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Error parsing PGN/FEN: ${e.message}", Toast.LENGTH_LONG).show()
             board.loadFen(Board.DEFAULT_STARTING_FEN) // Reset on error
         }
 
