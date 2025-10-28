@@ -21,9 +21,9 @@ android {
     }
     compileOptions {
         // --- THIS IS THE FIX ---
-        // Match the Java 11 version from our GitHub Actions workflow
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        // Match the Java 17 version from our GitHub Actions workflow
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
         // --- END OF FIX ---
     }
 }
